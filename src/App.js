@@ -1,22 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from "react";
+import "./App.css";
 
 function App() {
+  const [message, setMessage] = useState({});
+  const [hasLoaded, setHasLoaded] = useState();
+  useEffect(() => {
+    const fetchData = () => {
+      fetch("http://localhost:3000/api/v1/messages")
+        .then((res) => res.json())
+        .then((result) => {
+          setMessage(result.data);
+          setHasLoaded(true);
+        });
+    };
+    fetchData();
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        {hasLoaded ? (
+          <p style={{ fontSize: 26 }}>
+            message:
+            {message.greet}!
+          </p>
+        ) : (
+          <p style={{ fontSize: 26 }}>No message available! </p>
+        )}
       </header>
     </div>
   );
