@@ -1,24 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
-function Greeting() {
-  const [message, setMessage] = useState({});
-  const [hasLoaded, setHasLoaded] = useState();
-  useEffect(() => {
-    const fetchData = () => {
-      fetch('http://localhost:3000/api/v1/messages')
-        .then((res) => res.json())
-        .then((result) => {
-          setMessage(result.data);
-          setHasLoaded(true);
-        });
-    };
-    fetchData();
-  }, []);
-
+export default function Greeting() {
+  const message = useSelector((state) => state);
   return (
     <div className="App">
       <header className="App-header">
-        {hasLoaded ? (
+        {message ? (
           <p style={{ fontSize: 26 }}>
             message:
             {message.greet}
@@ -31,5 +18,3 @@ function Greeting() {
     </div>
   );
 }
-
-export default Greeting;
